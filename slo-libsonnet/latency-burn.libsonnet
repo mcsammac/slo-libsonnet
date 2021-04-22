@@ -17,7 +17,10 @@ local util = import '_util.libsonnet';
 
     local rates = ['5m', '30m', '1h', '2h', '6h', '1d', '3d'],
 
-    local rulesSelectors = slo.selectors + ['latency="' + slo.latencyTarget + '"'],
+    local rulesSelectors = 
+      slo.selectors + 
+      ['latency="' + slo.latencyTarget + '"'] +
+      slo.labels,
 
     local latencyRules = [
       {

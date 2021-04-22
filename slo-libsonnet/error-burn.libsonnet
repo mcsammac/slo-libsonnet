@@ -8,6 +8,7 @@ local errors = import 'errors.libsonnet';
       metric: error 'must set metric for error burn',
       recordingrule: '%s:burnrate%%s' % self.metric,  // double %% at the end as we template again further on
       selectors: [],
+      labels: [],
       errorSelectors: ['code=~"5.."'],
       target:
         if std.objectHas(param, 'errorBudget') then  // compatibility for a couple of months
@@ -22,7 +23,9 @@ local errors = import 'errors.libsonnet';
       ],
     } + param,
 
-    local labels = util.selectorsToLabels(slo.selectors),
+    local labels = 
+      util.selectorsToLabels(slo.selectors) + 
+      util.selectorsToLabels(slo.labels),
 
     recordingrules: [
       {
