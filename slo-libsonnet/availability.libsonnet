@@ -14,15 +14,15 @@ local util = import '_util.libsonnet';
       util.selectorsToLabels(slo.labels),
     recordingrule: {
         expr: |||
-          sum(rate(%(metric)s{%(nonErrorSelectors)s}[5m]))
+          sum(rate(%(metric)s{%(nonErrorSelectors)s}[rate]))
           /
-          sum(rate(%(metric)s{%(selectors)s}[5m]))
+          sum(rate(%(metric)s{%(selectors)s}[rate]))
         ||| % {
           metric: slo.metric,
           selectors: std.join(',', slo.selectors),
           errorSelectors: std.join(',', slo.selectors + slo.errorSelectors),
         },
-        record: '%s:availability',
+        record: '%s:availability' % rate,
         labels: labels,
       }
     }
