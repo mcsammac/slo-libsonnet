@@ -4,7 +4,7 @@ local util = import '_util.libsonnet';
      local slo = {
        metric: error 'must set metric for errors',
        selectors: [],
-       nonErrorSelectors: ['code!~"5.."'],
+       errorSelectors: ['code!~"5.."'],
        rate: '5m',
        labels: [],
       } + param,
@@ -14,7 +14,7 @@ local util = import '_util.libsonnet';
       util.selectorsToLabels(slo.labels),
     recordingrule: {
         expr: |||
-          sum(rate(%(metric)s{%(nonErrorSelectors)s}[%(rate)s]))
+          sum(rate(%(metric)s{%(errorSelectors)s}[%(rate)s]))
           /
           sum(rate(%(metric)s{%(selectors)s}[%(rate)s]))
         ||| % {
