@@ -1,13 +1,13 @@
 local util = import '_util.libsonnet';
 {
-    availability():: {
+    availability(param):: {
      local slo = {
        metric: error 'must set metric for errors',
        selectors: [],
        nonErrorSelectors: ['code!~"5.."'],
        rate: '5m',
        labels: [],
-      },
+      } + param,
     
     local labels = 
       util.selectorsToLabels(slo.selectors) + 
