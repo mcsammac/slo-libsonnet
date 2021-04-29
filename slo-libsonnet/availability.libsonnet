@@ -12,7 +12,7 @@ local util = import '_util.libsonnet';
     local labels = 
       util.selectorsToLabels(slo.selectors) + 
       util.selectorsToLabels(slo.labels),
-    recordingrule():: {
+    recordingrule: {
         expr: |||
           sum(rate(%(metric)s{%(nonErrorSelectors)s}[5m]))
           /
