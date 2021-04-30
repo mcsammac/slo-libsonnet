@@ -23,7 +23,10 @@ local util = import '_util.libsonnet';
           nonErrorSelectors: std.join(',', slo.selectors + slo.nonErrorSelectors),
           rate: slo.rate
         },
-        record: '%s:availability' % slo.rate,
+        record: '%(metric)s:availability%(rate)s' % {
+            metric: slo.metric,
+            rate:slo.rate
+        },
         labels: labels,
       }
     }
